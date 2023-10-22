@@ -11,3 +11,11 @@ db = sqlite3.connect('database.db')
 @app.route("/")
 def index():
     return render_template("index.html")
+
+@app.route("/register", methods=["GET", "POST"])
+def register():
+    if request.method == "POST":
+        # TODO: Get form data
+        return
+    else:
+        return render_template("register.html")
