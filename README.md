@@ -1,3 +1,3 @@
 # Weather Predict App
 
-##### Guess tommorow's weather.
+##### Guess tomorrow's weather.
