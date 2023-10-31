@@ -8,6 +8,7 @@ app = Flask(__name__)
 app.config['TEMPLATES_AUTO_RELOAD'] = True
 
 db = sqlite3.connect('database.db')
+ip_address = request.remote_addr
 
 @app.route("/")
 def index():
