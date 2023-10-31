@@ -1,11 +1,9 @@
-from flask import Flask
-from flask import request
 import requests
 
 # Geolocation
-def get_location(ip_adress):
+def get_location(ip_address):
     try:
-        response = requests.get("http://ip-api.com/json/{}".format(ip_adress))
+        response = requests.get("http://ip-api.com/json/{}".format(ip_address))
         js_data = response.json()
         country = js_data["country"]
         city = js_data["city"]
@@ -13,3 +11,4 @@ def get_location(ip_adress):
         return location_details
     except:
         return "Unknown"
+    
