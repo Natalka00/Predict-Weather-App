@@ -10,5 +10,6 @@ def get_location(ip_address):
         location_details = {"country": country ,"city": city}
         return location_details
     except:
-        return "Unknown"
+        location_details = {"country": "unknown" ,"city": "unknown"}
+        return location_details
     
