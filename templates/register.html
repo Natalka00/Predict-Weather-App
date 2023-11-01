@@ -5,5 +5,13 @@ Register
 {% endblock %}
 
 {% block main %}
-
+<h3>Register</h3>
+<form action="/register" method="post">
+    <div>
+        <input type="text" autocomplete="off" autofocus name="username" placeholder="Username">
+        <input type="password" autocomplete="off" autofocus name="password" placeholder="Password">
+        <input type="password" autocomplete="off" autofocus name="confirmation" placeholder="Confirm password">
+        <button type="submit">Register</button>
+    </div>
+</form>
 {% endblock %}
