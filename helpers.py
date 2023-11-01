@@ -1,4 +1,5 @@
 import requests
+from flask import render_template
 
 # Geolocation
 def get_location(ip_address):
@@ -12,4 +13,8 @@ def get_location(ip_address):
     except:
         location_details = {"country": "unknown" ,"city": "unknown"}
         return location_details
+    
+# Error display
+def error_message(message):
+    return render_template("error.html", message=message)
     
