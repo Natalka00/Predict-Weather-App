@@ -2,6 +2,7 @@ from flask import Flask, request, redirect, render_template, session
 from flask_session import Session
 import os
 import sqlite3
+from werkzeug.security import check_password_hash, generate_password_hash
 from helpers import get_location, error_message
 
 app = Flask(__name__)
@@ -51,6 +52,16 @@ def register():
         # Error: No lowercase letter
         elif not any(character.islower() for character in password):
             return error_message("Password must contain at least one lowercase letter.")
+        
+        # TODO: Add special characters handling
+        
+        # Error: Confirmation unsuccessful
+        elif password != confirmation:
+            return error_message("Password confirmation unsuccessful")
+        
+        else:
+            hash = generate_password_hash(password, method="pbkdf2", salt_length=16)
+
         
     else:
         return render_template("register.html")
