@@ -1,5 +1,6 @@
+from functools import wraps
 import requests
-from flask import render_template
+from flask import render_template, redirect, session
 
 # Geolocation
 def get_location(ip_address):
@@ -18,3 +19,11 @@ def get_location(ip_address):
 def error_message(message):
     return render_template("error.html", message=message)
     
+# Login required decorator
+def login_req(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if session.get("user_id") is None:
+            return redirect("/login")
+        return f(*args, **kwargs)
+    return decorated_function
