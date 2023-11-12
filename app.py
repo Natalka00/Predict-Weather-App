@@ -32,8 +32,8 @@ def register():
         # Error: Existing username
         db_connection = sqlite3.connect('database.db')
         db_cursor = db_connection.cursor()
-        check_username = db_cursor.execute("SELECT username FROM users WHERE username = ?;", username)
-        if len(check_username.fetchone()) > 0:
+        check_username = db_cursor.execute("SELECT username FROM users WHERE username = ?;", (username, ))
+        if check_username.fetchone() != None and len(check_username.fetchone()) > 0:
             db_connection.close()
             return error_message("Username already exists.")
         
@@ -61,6 +61,11 @@ def register():
         
         else:
             hash = generate_password_hash(password, method="pbkdf2", salt_length=16)
+            db_cursor.execute("INSERT INTO users (username, hash) VALUES (?, ?);", [username, hash])
+            db_connection.commit()
+            db_connection.close()
+
+            return redirect("/")
 
         
     else:
