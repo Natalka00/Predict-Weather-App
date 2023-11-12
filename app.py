@@ -66,11 +66,37 @@ def register():
             db_connection.close()
 
             return redirect("/")
-
-        
+       
     else:
         return render_template("register.html")
     
 @app.route("/login", methods=["GET","POST"])
 def login():
-    return render_template("login.html")
+
+    session.clear()
+
+    if request.method == "POST":
+        username = request.form.get("username")
+        password = request.form.get("password")
+
+        if not username or not password:
+            return error_message("Must provide username and password")
+        
+        db_connection = sqlite3.connect('database.db')
+        db_cursor = db_connection.cursor()
+        check_user = db_cursor.execute("SELECT * FROM users WHERE username = ?;", (username, ))
+        
+        if not check_user:
+            db_connection.close()
+            return error_message("Invalid username")
+        
+        check_user = check_user.fetchall()
+        if not check_password_hash(check_user[0][2], password):
+            db_connection.close()
+            return error_message("Invalid password")
+        
+        session["user_id"] = check_user[0][1]
+        db_connection.close()
+        return redirect("/")
+    else:
+        return render_template("login.html")
