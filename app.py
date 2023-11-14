@@ -3,7 +3,7 @@ from flask_session import Session
 import os
 import sqlite3
 from werkzeug.security import check_password_hash, generate_password_hash
-from helpers import get_location, error_message
+from helpers import get_location, error_message, login_req
 
 app = Flask(__name__)
 app.config['TEMPLATES_AUTO_RELOAD'] = True
@@ -59,6 +59,7 @@ def register():
         elif password != confirmation:
             return error_message("Password confirmation unsuccessful")
         
+        # Register user
         else:
             hash = generate_password_hash(password, method="pbkdf2", salt_length=16)
             db_cursor.execute("INSERT INTO users (username, hash) VALUES (?, ?);", [username, hash])
@@ -106,3 +107,8 @@ def logout():
 
     session.clear()
     return redirect("/")
+
+@app.route("/profile", methods="POST")
+@login_req
+def profile():
+    return render_template("profile.html")
