@@ -108,7 +108,7 @@ def logout():
     session.clear()
     return redirect("/")
 
-@app.route("/profile", methods="POST")
+@app.route("/profile", methods=["POST", "GET"])
 @login_req
 def profile():
     return render_template("profile.html")
